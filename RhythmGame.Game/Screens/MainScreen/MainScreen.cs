@@ -12,7 +12,7 @@ using RhythmGame.Domain.Beatmap.Converters;
 using RhythmGame.Game.Screens.Gameplay;
 using RhythmGame.Utils;
 
-namespace RhythmGame.Game
+namespace RhythmGame.Game.Screens.MainScreen
 {
     public class MainScreen : Screen
     {
@@ -37,10 +37,7 @@ namespace RhythmGame.Game
                 new Mania2RG().Save("R:\\osu!\\Songs\\934993 PE - Central DELAY");
                 BeatmapHelper.RescanBeatmaps();
 
-                InternalChildren = new Drawable[]
-                {
-                    new Gameplay(new Bindable<Beatmap>(BeatmapHelper.Beatmaps[0]))
-                };
+                this.Push(new Gameplay.Gameplay(new Bindable<Beatmap>(BeatmapHelper.Beatmaps[0])));                    
             }
 
             return true;

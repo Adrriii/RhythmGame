@@ -7,7 +7,7 @@ using RhythmGame.Resources;
 
 namespace RhythmGame.Game
 {
-    public class RhythmGameGameBase : osu.Framework.Game
+    public class RhythmGameBase : osu.Framework.Game
     {
         // Anything in this class is shared between the test browser and the game implementation.
         // It allows for caching global dependencies that should be accessible to tests, or changing
@@ -15,7 +15,7 @@ namespace RhythmGame.Game
 
         protected override Container<Drawable> Content { get; }
 
-        protected RhythmGameGameBase()
+        protected RhythmGameBase()
         {
             // Ensure game and tests scale with window size and screen DPI.
             base.Content.Add(Content = new DrawSizePreservingFillContainer

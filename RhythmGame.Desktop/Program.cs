@@ -9,7 +9,7 @@ namespace RhythmGame.Desktop
         public static void Main()
         {
             using (GameHost host = Host.GetSuitableHost(@"RhythmGame"))
-            using (osu.Framework.Game game = new RhythmGameGame())
+            using (osu.Framework.Game game = new Game.RhythmGame())
                 host.Run(game);
         }
     }

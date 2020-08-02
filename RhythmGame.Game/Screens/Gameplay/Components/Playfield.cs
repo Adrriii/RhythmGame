@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using osu.Framework.Allocation;
 using osu.Framework.Bindables;
@@ -7,16 +8,20 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Textures;
+using osu.Framework.Input.Bindings;
 using osu.Framework.Timing;
 using osuTK;
+using osuTK.Graphics;
 using RhythmGame.Domain.Beatmap;
 
 namespace RhythmGame.Game.Screens.Gameplay.Components
 {
-    class Playfield : Container
+    public class Playfield : GameplayInputContainer, IKeyBindingHandler<GameplayInput>
     {
-        Bindable<Beatmap> Beatmap;
+        public Bindable<Beatmap> Beatmap;
         public List<Column> Columns;
+
+        private Dictionary<GameplayInput, Box> keys;
 
         public Playfield(Bindable<Beatmap> beatmap)
         {
@@ -30,18 +35,43 @@ namespace RhythmGame.Game.Screens.Gameplay.Components
         [BackgroundDependencyLoader]
         private void load(TextureStore textureStore)
         {
-            Columns = new List<Column>();
 
-            for (int k = 0; k < Beatmap.Value.keycount; k++)
+            int AlignLeft = -200;
+            int KeyWidth = 100;
+            int KeyHeight = 40;
+            int KeyPadd = 0;
+            int nk = 0;
+
+            Columns = new List<Column>();
+            keys = new Dictionary<GameplayInput, Box>();
+
+            foreach (GameplayInput key in Enum.GetValues(typeof(GameplayInput)))
             {
-                Columns.Add(new Column(k, Beatmap.Value.GetColumnNotes(k+1)));
+                keys.Add(key,
+                    new Box
+                    {
+                        Anchor = Anchor.BottomCentre,
+                        Origin = Anchor.BottomCentre,
+                        Size = new Vector2(KeyWidth, KeyHeight),
+                        Colour = new Color4(255, 255, 255, 255),
+                        Position = new Vector2(AlignLeft + nk * KeyWidth + nk * KeyPadd, 0)
+                    }
+                );
+                Columns.Add(new Column(nk, Beatmap.Value.GetColumnNotes(nk + 1)));
+
+                nk++;
             }
+
+            List<Drawable> elements = new List<Drawable>();
+
+            elements.AddRange(keys.Values.ToList());
+            elements.AddRange(Columns);
 
             Children = new Drawable[]
             {
                 new Container
                 {
-                    Children = Columns
+                    Children = elements
                 },
             };
         }
@@ -52,6 +82,18 @@ namespace RhythmGame.Game.Screens.Gameplay.Components
             {
                 col.Update(StopwatchClock);
             }
+        }
+
+        public bool OnPressed(GameplayInput input)
+        {
+            keys[input].Colour = new Color4(255, 0, 0, 255);
+
+            return true;
+        }
+
+        public void OnReleased(GameplayInput input)
+        {
+            keys[input].Colour = new Color4(255, 255, 255, 255);
         }
     }
 }

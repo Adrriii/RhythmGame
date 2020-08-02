@@ -5,7 +5,7 @@ using osu.Framework.Testing;
 
 namespace RhythmGame.Game.Tests
 {
-    public class RhythmGameTestBrowser : RhythmGameGameBase
+    public class RhythmGameTestBrowser : RhythmGameBase
     {
         protected override void LoadComplete()
         {

@@ -1,10 +1,11 @@
 ﻿using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Screens;
+using RhythmGame.Game.Screens.MainScreen;
 
 namespace RhythmGame.Game
 {
-    public class RhythmGameGame : RhythmGameGameBase
+    public class RhythmGame : RhythmGameBase
     {
         private ScreenStack screenStack;
 

@@ -4,3 +4,7 @@
 */obj/
 
 *.htm
+
+.vs/RhythmGame/DesignTimeBuild/
+
+.vs/RhythmGame/v16/
